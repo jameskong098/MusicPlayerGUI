@@ -1,3 +1,12 @@
+/**
+ * James Kong
+ * jameskong098@gmail.com
+ * December 21, 2021
+ * Music Player GUI Project
+ * test Class: Junit tests to test Queue ADT and doubly linked list ADT
+ * Known Bugs: Queue Underflow/Doubly Linked List exception thrown
+ */
+
 package main;
 import static org.junit.jupiter.api.Assertions.*;
 
