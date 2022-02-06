@@ -33,6 +33,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.UIManager;
 
 public class MusicPlayerGUI implements ActionListener, LineListener {
 	private JFrame frame;
@@ -336,6 +337,13 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == loadButton) {
+			try {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			} 
+			catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			JFileChooser fileChooser = new JFileChooser();
 			int response = fileChooser.showOpenDialog(null);
 			if (response == JFileChooser.APPROVE_OPTION) {
