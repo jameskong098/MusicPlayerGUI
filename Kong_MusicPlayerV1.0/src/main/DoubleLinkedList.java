@@ -1,3 +1,12 @@
+/**
+ * James Kong
+ * jameskong098@gmail.com
+ * December 21, 2021
+ * Music Player GUI Project
+ * DoubleLinkedList Class: Doubly Linked List ADT Data Structure modified to accept two data types
+ * Known Bugs: Doubly Linked List Underflow exception thrown
+ */
+
 package main;
 
 public class DoubleLinkedList {
