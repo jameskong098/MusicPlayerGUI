@@ -1,12 +1,3 @@
-/**
- * James Kong
- * jameskong098@gmail.com
- * December 21, 2021
- * Music Player GUI Project
- * Queue Class: Queue ADT Data Structure made using a doubly linked list
- * Known Bugs: Queue Underflow exception thrown
- */
-
 package main;
 
 public class Queue {
@@ -36,11 +27,6 @@ public class Queue {
 			L.insert(data);
 		}
 	}
-	
-	/**
-	 * enqueue(Node cur) adds a node to front of queue
-	 * @param cur
-	 */
 
 	public void enqueue(Node cur) {
 		if (front == null) {
@@ -78,11 +64,6 @@ public class Queue {
 		return temp;
 	}
 	
-	/**
-	 * returns the front element of the queue without removing it
-	 * @return the front node element of the queue is returned
-	 */
-	
 	public Node peek() {
 		return front;
 	}
@@ -97,7 +78,7 @@ public class Queue {
 	}
 	
 	/**
-	 * front: returns the data of the front element
+	 * front: returns front of queue
 	 * @return T (front returned)
 	 */
 	

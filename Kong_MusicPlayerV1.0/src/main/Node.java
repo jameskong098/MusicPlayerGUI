@@ -1,12 +1,3 @@
-/**
- * James Kong
- * jameskong098@gmail.com
- * December 21, 2021
- * Music Player GUI Project
- * Node Class: Modified node class to include two data fields for Doubly Linked List
- * Known Bugs: No known bugs
- */
-
 package main;
 
 public class Node {

@@ -1,17 +1,12 @@
-/**
- * James Kong
- * jameskong098@gmail.com
- * December 21, 2021
- * Music Player GUI Project
- * MusicPlayerGUI Class: contains all the necessary methods to construct a media player
- * Known Bugs: FileNotFoundException, Queue is currently not working correctly so it is commented out
- */
-
 package main;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -69,10 +64,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 	private boolean loopStatus;
 	private boolean autoPlayStatus;
 	
-	/**
-	 * MusicPlayerGUI(): Constructor for MusicPlayerGUI Class, initializes all panels, frames, labels, buttons, action listeners, ADT data structures, variables
- 	 * @throws FileNotFoundException
-	 */
 	
 	public MusicPlayerGUI() throws FileNotFoundException {
 		frame = new JFrame();
@@ -104,7 +95,7 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 		rewind = new JButton("Rewind");
 		rewind.addActionListener(this);
 		currentSong = new JLabel("Current Song Playing: none");
-		nextSong = new JLabel("Next Song: none");
+		nextSong = new JLabel();
 		songListLabel = new JLabel("Song List: ");
 		songList = new JTextArea(15,1);
 		songList.setEditable(false);
@@ -119,10 +110,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 		musicFile = new File("musicFile.txt");
 		temp = true;
 	}
-	
-	/**
-	 * createPanels(): adds all necessary music player GUI components (buttons, labels, etc.) to panels
-	 */
 	
 	public void createPanels() {
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 120, 0, 120));
@@ -144,28 +131,16 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 		panel2.add(skipButton);
 	}
 	
-	/**
-	 * createFrame(): adds all panels to frame, sets necessary settings for frame (title, close operation, pack, set visibility)
-	 */
-	
 	public void createFrame() {
 		frame.add(panel, BorderLayout.NORTH);
 		frame.add(scroll, BorderLayout.CENTER);
 		frame.add(panel2, BorderLayout.SOUTH);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Music Player v.1.1 by James D. Kong - jameskong098@gmail.com");
+		frame.setTitle("Music Player v.1.0 by James D. Kong - jameskong098@gmail.com");
 		frame.pack();
 		frame.setVisible(true);
 	}
-	
-	/**
-	 * checkForMusicFile(): checks for if musicFile.txt exists (if the user has previously loaded up songs before)
-	 * FILE_EXISTS: scan through the file and insert each line into doubly link list for song storage and then return true
-	 * FILE_DOES_NOT_EXIST: return false
-	 * @return boolean value true/false for if the musicFile.txt exists
-	 * @throws FileNotFoundException
-	 */
 	
 	public boolean checkForMusicFile() throws FileNotFoundException {
 		if (musicFile.exists() == true) {
@@ -184,10 +159,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 		return false;
 	}
 	
-	/**
-	 * checkNextSong(): checks for the next song either in the list or the queue and updates the next song label to the correct next song
-	 */
-	
 	public void checkNextSong() {
 		if (cur.next != null && Q.getSize() <= 1) {
 			nextSong.setText("Next Song: " + cur.next.data2);
@@ -199,13 +170,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 			nextSong.setText("Next Song: none");
 		}
 	}
-	
-	/**
-	 * searchForDeleteFile(String songPath): scan through the musicFile.txt file, printing all lines that don't include the file to be deleted's
-	 * string file path to musicFile.txt (except it is overwritten not appended and thus the final result excludes the song to be deleted's file path)
-	 * @param songPath: String variable containing the song to be deleted's file path
-	 * @throws FileNotFoundException: if musicFile.txt does not exist
-	 */
 	
 	public void searchForDeleteFile(String songPath) throws FileNotFoundException {
 		if (musicFile.exists() == true) {
@@ -233,11 +197,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 		}
 	}
 	
-	/**
-	 * setSongList(): updates the song list label so that the list of songs displays a list of all songs
-	 * that have been loaded by the user
-	 */
-	
 	public void setSongList() {
 		Node songListNode = L.head;
 		String temp = "";
@@ -254,13 +213,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 		}
 		songList.setText(temp);
 	}
-	
-	/**
-	 * runMusic(): Gets an audio input stream from the given node that contains the file path
-	 * for a file object to be constructed for the audio input stream, a clip is constructed, opened, and then returned
-	 * @param cur: a node object that contains the string file path info for file construction
-	 * @return Clip: clip object returned containing the audio input stream from the file 
-	 */
 	
 	public Clip runMusic(Node cur) {
 		try {
@@ -283,13 +235,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 		return null;
 	}
 	
-	/**
-	 * getFileType(File file): given a song file, retrieves the file name and then trims off everything except the
-	 * file extension
-	 * @param file: song file object passed in 
-	 * @return a string containing the file extension (file type)
-	 */
-	
 	public String getFileType(File file) {
 		String temp = file.getName();
 		String type = "";
@@ -300,12 +245,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 		return type;
 	}
 	
-	/**
-	 * trimSongName(String fileName): given a song file name, trims off the file extension, leaving just the song name and no file type
-	 * @param fileName: string containing the file's name + extension
-	 * @return a string that contains the file's name with no extension
-	 */
-	
 	public String trimSongName(String fileName) {
 		String type = "";
 		int dotExt = fileName.lastIndexOf('.');
@@ -314,12 +253,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 		}
 		return type;
 	}
-	
-	/**
-	 * checkNumber(String num): checks if a given string is a valid integer value or not
-	 * @param num: string passed in
-	 * @return boolean true/false depending on if given string is a valid integer value or not
-	 */
 	
 	public boolean checkNumber(String num) {
 		if (num == null) {
@@ -357,7 +290,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 					} catch (FileNotFoundException e1) {
 						e1.printStackTrace();
 					}
-					//if the list is empty then insert into doubly linked list and create a new musicFile.txt file and print to it 
 					if (L.head == null) {
 						L.insert(file.getAbsolutePath(), trimSongName(file.getName()));
 						output.println(file.getAbsolutePath());
@@ -366,7 +298,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 						checkNextSong();
 						clip = runMusic(cur);
 					}
-					//insert into doubly link list and print to musicFile.txt
 					else {
 						L.insert(file.getAbsolutePath(), trimSongName(file.getName()));
 						setSongList();
@@ -395,20 +326,16 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 					Node songNumNode = L.head;
 					int counter = 1;
 					while (songNumNode != null) {
-						//if the song to be deleted is found
 						if (counter == convertNum) {
 							try {
-								//if the song to be deleted is also the song that is currently playing
 								if (cur == songNumNode) {
 									if (clip != null) {
 										clip.stop();
 									}
-									//if there is a next song then run the next song
 									if (cur.next != null) {
 										cur = cur.next;				
 										clip = runMusic(cur);
 									}
-									//if there is a prev song then run the previous song
 									else if (cur.prev != null) {
 										cur = cur.prev;	
 										clip = runMusic(cur);
@@ -427,7 +354,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 										currentSong.setText(temp2);
 									}
 								}
-								//update text file storage so that when user opens program next time, it does not contain the deleted song's file path
 								searchForDeleteFile(songNumNode.data);
 								checkRemoved = L.remove(songNumNode);
 								setSongList();
@@ -449,7 +375,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 		else if (e.getSource() == queueSong) {
 			JOptionPane.showMessageDialog(null, "Queue is currently disabled due to bugs");
 		}
-		//FIX QUEUE OPTION, ISSUE IS THAT cur node implemementation from doubly linked lists has to interact with queue node
 		/**
 		else if (e.getSource() == queueSong) {
 			String songNum = JOptionPane.showInputDialog("Please type in the number of the song to be queued:");
@@ -507,7 +432,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 					if (clip.isActive() == true) {
 						JOptionPane.showMessageDialog(null, "Song is already playing");
 					}
-					//if there is a song in the queue, then update the current song label to include the queue song
 					if (Q.getSize() > 0) {
 						String temp = "Current Song Playing:   " + Qcur.data2;
 						currentSong.setText(temp);
@@ -535,7 +459,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 		}
 		else if (e.getSource() == pauseButton) {
 			if (cur != null) {
-				//sets temp boolean for checking if the file is in the correct place (if it was moved) 
 				if (cur.data != null) {
 					file = new File(cur.data);
 					temp = file.exists();
@@ -544,7 +467,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 					if (clip.isActive() == false) {
 						JOptionPane.showMessageDialog(null, "Song is already paused");
 					}
-					//if there is a song in the queue, then update the current song label to include the queue song
 					if (Q.getSize() > 0) {
 						String temp = "Current Song Playing:   " + Qcur.data2;
 						currentSong.setText(temp);
@@ -570,12 +492,10 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 		}
 		else if (e.getSource() == skipButton) {
 			if (cur != null) {
-				//sets temp boolean for checking if the file is in the correct place (if it was moved) 
 				if (cur.data != null) {
 					file = new File(cur.data);
 					temp = file.exists();
 				}
-				//if there is a song in the queue, then play the next song in the queue
 				if (Q.getSize() > 0) {
 					try {
 						Qcur = Q.dequeue();
@@ -590,7 +510,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 					clip.start();
 					clip.addLineListener(this);
 				}
-				//if there is a next song in the song list then play it
 				else if (cur.next != null) {
 					if (clip != null) {
 						clip.stop();
@@ -621,13 +540,10 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 		}
 		else if (e.getSource() == previousButton) {
 			if (cur != null) {
-				//sets temp boolean for checking if the file is in the correct place (if it was moved) 
 				if (cur.data != null) {
 					file = new File(cur.data);
 					temp = file.exists();
 				}
-				//if there is a song in the queue, then play the next song in the queue
-				//CHANGE NEEDED HERE SINCE THIS IS PREVIOUS NOT NEXT SONG IN THE QUEUE
 				if (Q.getSize() > 0) {
 					try {
 						Qcur = Q.dequeue();
@@ -642,7 +558,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 					clip.start();
 					clip.addLineListener(this);
 				}
-				//if there is a previous song, then play the previous song
 				else if (cur.prev != null) {
 					if (clip != null) {
 						clip.stop();
@@ -673,7 +588,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 		}
 		else if (e.getSource() == fastForward) {
 			if (cur != null) {
-				//sets temp boolean for checking if the file is in the correct place (if it was moved) 
 				if (cur.data != null) {
 					file = new File(cur.data);
 					temp = file.exists();
@@ -682,11 +596,9 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 					if (clip.isActive() == false) {
 						JOptionPane.showMessageDialog(null, "No song is currently playing!");
 					}
-					//if the song can still be fast forwarded then fast forward
 					else if (clip.getFramePosition() + 300000 < clip.getFrameLength()) {
 						clip.setFramePosition(clip.getFramePosition() + 300000);
 					}
-					//if loop is on and user attempts to fast forward beyond or at the start, then set frame position to 300000 frames in or at the beginning
 					else if (loopStatus == true) {
 						if (0 + 300000 < clip.getFrameLength()) {
 							clip.setFramePosition(300000);
@@ -697,11 +609,8 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 						clip.start();
 						clip.addLineListener(this);
 					}
-					//if song can't be fast forwarded without exceeding the song's ending frame length, then check if there is a next song in the queue
-					//and then check if there is a next song in the song list
 					else {
 						clip.stop();
-						//if there is a song in the queue, then play the next song in the queue
 						if (Q.getSize() > 0) {
 							try {
 								Qcur = Q.dequeue();
@@ -716,7 +625,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 							clip.start();
 							clip.addLineListener(this);
 						}
-						//play the next song
 						else if (cur.next != null) {
 							cur = cur.next;
 							clip = runMusic(cur);
@@ -752,11 +660,9 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 					if (clip.isActive() == false) {
 						JOptionPane.showMessageDialog(null, "No song is currently playing!");
 					}
-					//if song can still be rewinded then rewind
 					else if (clip.getFramePosition() - 300000 > 0) {
 						clip.setFramePosition(clip.getFramePosition() - 300000);
 					}
-					//if loop is on and user rewinds when close to the start, then start at the end of the song and rewind
 					else if (loopStatus == true) {
 						if (clip.getFrameLength() - 300000 > 0) {
 							clip.setFramePosition(clip.getFrameLength() - 300000);
@@ -769,7 +675,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 					}
 					else {
 						clip.stop();
-						//if there is a song in the queue, then play the next song in the queue
 						if (Q.getSize() > 0) {
 							try {
 								Qcur = Q.dequeue();
@@ -784,7 +689,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 							clip.start();
 							clip.addLineListener(this);
 						}
-						//play the previous song
 						else if (cur.prev != null) {
 							cur = cur.prev;
 							clip = runMusic(cur);
@@ -825,9 +729,7 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 	@Override
 	public void update(LineEvent event) {
 		LineEvent.Type type = event.getType();
-		//if a song has finished playing, autoplay is turned on, loop is turned off, and there is no song in queue, then play the next song in the song list
 		if (type == LineEvent.Type.STOP && clip.getFramePosition() == clip.getFrameLength() && autoPlayStatus == true && loopStatus == false && Q.getSize() == 0) {
-			//if there is a next song in the list then play it
 			if (cur.next != null) {
 				cur = cur.next;
 				clip = runMusic(cur);
@@ -837,7 +739,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 				clip.start();
 				clip.addLineListener(this);
 			}
-			//if there isn't a next song in the list, then start the current song at it's beginnning
 			else {
 				clip.setFramePosition(0);
 				checkNextSong();
@@ -845,7 +746,6 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 				currentSong.setText(temp);
 			}
 		}
-		//if a song has finished playing, autoplay is turned off, loop is turned off, and there is no song in queue, then start the current song back to the beginning and pause
 		else if (type == LineEvent.Type.STOP && clip.getFramePosition() == clip.getFrameLength() && autoPlayStatus == false && loopStatus == false && Q.getSize() == 0){
 			clip.setFramePosition(0);
 			clip.addLineListener(this);
@@ -853,12 +753,10 @@ public class MusicPlayerGUI implements ActionListener, LineListener {
 			String temp = "Current Song Playing:   " + cur.data2 + " [Paused]";
 			currentSong.setText(temp);
 		}
-		//if a song has finished playing and loop is turned on, then start the song back at it's beginning and play
 		else if (type == LineEvent.Type.STOP && clip.getFramePosition() == clip.getFrameLength() && loopStatus == true) {
 			clip.setFramePosition(0);
 			clip.start();
 		}
-		//if a song has finished playing and there is a song in the queue then playing the next song in the queue
 		else if (type == LineEvent.Type.STOP && clip.getFramePosition() == clip.getFrameLength() && Q.getSize() > 0) {
 			try {
 				Qcur = Q.dequeue();
