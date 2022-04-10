@@ -10,10 +10,10 @@
 package main;
 
 public class Node {
-	Node next;
-	Node prev;
-	String data;
-	String data2;
+	public Node next;
+	public Node prev;
+	public String data;
+	public String data2;
 	
 	public Node() {
 		next = null;

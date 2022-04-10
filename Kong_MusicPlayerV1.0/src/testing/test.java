@@ -7,10 +7,14 @@
  * Known Bugs: Queue Underflow/Doubly Linked List exception thrown
  */
 
-package main;
+package testing;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+
+import main.DoubleLinkedList;
+import main.Node;
+import main.Queue;
 
 class test {
 
@@ -21,19 +25,19 @@ class test {
 		Q.enqueue("Ride bicycle around town");
 		Q.enqueue("Play some ranked valorant games");
 		assertEquals("Finish javascript homework", Q.front.data);
-		assertEquals("Finish javascript homework", Q.dequeue());
+		assertEquals("Finish javascript homework", Q.dequeueString());
 		assertEquals(2, Q.L.size);
 		assertEquals("Ride bicycle around town", Q.front.data);
-		assertEquals("Ride bicycle around town", Q.dequeue());
+		assertEquals("Ride bicycle around town", Q.dequeueString());
 		assertEquals(1, Q.L.size);
 		assertEquals("Play some ranked valorant games", Q.front.data);
-		assertEquals("Play some ranked valorant games", Q.dequeue());
+		assertEquals("Play some ranked valorant games", Q.dequeueString());
 		assertEquals(null, Q.front);
 		assertEquals(0, Q.L.size);
 		Q.enqueue("Clean room");
 		assertEquals(1, Q.L.size);
 		assertEquals("Clean room", Q.front.data);
-		assertEquals("Clean room", Q.dequeue());
+		assertEquals("Clean room", Q.dequeueString());
 		assertEquals(null, Q.front);
 	}
 	

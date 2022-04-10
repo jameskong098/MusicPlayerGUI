@@ -10,8 +10,8 @@
 package main;
 
 public class Queue {
-	DoubleLinkedList L;
-	Node front;
+	public DoubleLinkedList L;
+	public Node front;
 	
 	/**
 	 * Queue constructor, initializes fields

@@ -10,11 +10,11 @@
 package main;
 
 public class DoubleLinkedList {
-	Node cur;
-	Node head;
-	Node tail;
-	int size;
-	String songName;
+	public Node cur;
+	public Node head;
+	public Node tail;
+	public int size;
+	public String songName;
 		
 	public DoubleLinkedList() {
 		cur = null;
